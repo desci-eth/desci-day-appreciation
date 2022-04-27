@@ -7,7 +7,6 @@ import styles from '../styles/Home.module.css'
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers';
 
-import ViewMessagesButton from './components/ViewMessagesButton'
 import Container from './components/Container'
 import Header from './components/Header'
 
@@ -40,19 +39,12 @@ const getSigner = async () => {
 export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
   const [userInput, setUserInput] = useState("")
-  const [txMessage, setTxMessage] = useState("")
-  const [toggleSlideover, setToggleSlideover] = useState(false)
 
   useEffect(() => {
     // switchNetwork() 
     getSigner().then(_signer => setSigner(_signer));
     console.log(signer)
   }, [signer])
-
-  const handleToggle = (value) => {
-    console.log(`handleToggle: ${value}`) // TODO: Delete
-    setToggleSlideover(value)
-  }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -71,11 +63,10 @@ export default function PageWithJSbasedForm() {
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
     const tx = await contractWithSigner.mintTo(address, name, location, message)
     alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
-    // setTxMessage(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
   }
 
   return (
-    <Container toggleSlideover={toggleSlideover}>
+    <Container>
       <div
         className="relative px-1 py-10 bg-gray-50 shadow-lg sm:rounded-3xl sm:p-20"
       >
@@ -108,9 +99,6 @@ export default function PageWithJSbasedForm() {
                   <button  type="submit">Send message and receive NFT</button>
                 </div>
               </form>
-              {/* <div>
-                {txMessage && <p>{txMessage}</p>}
-              </div> */}
             </div>
           </main>
         </div>
@@ -118,16 +106,10 @@ export default function PageWithJSbasedForm() {
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
               <button className="sm:p-0 pt-2 float-right text-sm sm:text-base bg-gray-50 font-fancy border-opacity-50 border-dashed border-b-2 border-gray-900">
-                {/* <button
-                  className="text-sm sm:text-base bg-gray-50 font-fancy border-opacity-50 border-dashed border-b-2 border-gray-900"
-                >
-                  View Messages
-                </button> */}
                 View Tokens of Appreciation
               </button>
             </div>
           </a>
-          {/* <ViewMessagesButton /> */}
         </Link>
         <div
           className="pt-5 card-footer bottom-0 sm:absolute sm:bottom-4 sm:pt-10 sm:mt-3"
