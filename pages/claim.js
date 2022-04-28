@@ -59,7 +59,7 @@ export default function PageWithJSbasedForm() {
     }
     const contractAddr = '0x901280B591cAEe7DB1c923E5Ae6f4021805fC53e'
     // const contractABI = require('../../data/abi/AppreciationToken.json')
-    const contractABI = require('../public/AppreciationToken.json')
+    const contractABI = require('/AppreciationToken.json')
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
     const tx = await contractWithSigner.mintTo(address, name, location, message)
     alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
