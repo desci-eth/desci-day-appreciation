@@ -10,7 +10,7 @@ export default function ViewMessages(props) {
       const provider = new ethers.providers.JsonRpcProvider("https://xdai-rpc.gateway.pokt.network")
       const contractAddr = '0x901280B591cAEe7DB1c923E5Ae6f4021805fC53e'
       // const contractABI = require('../../data/abi/AppreciationToken.json')
-      const contractABI = require('/AppreciationToken.json')
+      const contractABI = require('./api/AppreciationToken.json')
       const contractWithProvider = new ethers.Contract(contractAddr, contractABI, provider)
       const allAddrs = await contractWithProvider.getAllMinters()
     
