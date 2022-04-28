@@ -117,8 +117,8 @@ export default function PageWithJSbasedForm() {
             <span>
               Design & code by
             </span>
-            <a href="https://www.twitter.com/angelagilhotra/" target="_new">
-              @angelagilhotra
+            <a href="https://twitter.com/anggxyz/" target="_new">
+              @anggxyz
             </a>
           </div>
         </div>
