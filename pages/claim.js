@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import ConnectButton from './components/connect'
 import styles from '../styles/Home.module.css'
 // import styles from '../styles/tailwind.css'
 
@@ -10,40 +11,46 @@ import Container from './components/Container'
 import Header from './components/Header'
 
 
-const switchNetwork = () => {
-  window.ethereum.request({
-    params: [{
-        chainId: "0x64",
-        rpcUrls: ["https://xdai-rpc.gateway.pokt.network"],
-        chainName: "Gnosis Chain (formerly xDAI)",
-        nativeCurrency: {
-            name: "xDAI",
-            symbol: "xDAI",
-            decimals: 18
-        },
-        blockExplorerUrls: ["https://blockscout.com/xdai/mainnet/"]
-    }]
-});
-}
+const switchNetwork = async () => {
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{
+          chainId: "0x64",
+      }]
+    });
+  } catch(e) {
+    if (e.code === 4001) {
+      window.alert('Please switch to the GNOSIS chain.')
+    }
+  }
+};
 
 const getSigner = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
   // Prompt user for account connections
-  await provider.send("eth_requestAccounts", []);
+  console.log('in signer');
+  try {
+    await switchNetwork();
+    await provider.send("eth_requestAccounts", []);
+  } catch(e) {
+      if (e.code === -32002) {
+        window.alert('You already initiated a connection. Please open your metamask and approve any pending transactions from us.')
+      }
+  }
   const signer = provider.getSigner();
-  console.log("Account:", await signer.getAddress());
+  try {
+    const address = await signer.getAddress();
+    console.log("Account:", address);
+  } catch(e) {
+    //TODO
+  }
   return signer;
 }
 
 export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
   const [userInput, setUserInput] = useState("")
-
-  useEffect(() => {
-    // switchNetwork() 
-    getSigner().then(_signer => setSigner(_signer));
-    console.log(signer)
-  }, [signer])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -65,6 +72,12 @@ export default function PageWithJSbasedForm() {
   }
 
   return (
+    <div>
+    <ConnectButton 
+      onClick={() => {
+        getSigner().then(_signer => setSigner(_signer));
+      }}
+    />
     <Container>
       <div
         className="relative px-1 py-10 bg-gray-50 shadow-lg sm:rounded-3xl sm:p-20"
@@ -124,5 +137,6 @@ export default function PageWithJSbasedForm() {
         </div>
       </div>
     </Container>
+    </div>
   )
 }
