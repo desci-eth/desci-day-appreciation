@@ -80,21 +80,20 @@ export default function PageWithJSbasedForm() {
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
     
     let pinCidsBefore;
-    console.log('GET https://api.estuary.tech/pinning/pins')
-    fetch('https://api.estuary.tech/pinning/pins', {
+    console.log('GET https://api.pinata.cloud/data/pinList')
+    fetch('https://api.pinata.cloud/data/pinList', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
+        pinata_api_key: process.env.NEXT_APP_PINATA_API_KEY,
+        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
       },
     })
-      .then(data => {
-        return data.json();
+      .then(resp => resp.json())
+      .then(pinList => {
+        console.log('Successful request: GET https://api.pinata.cloud/data/pinList')
+        pinCidsBefore = pinList['rows'].map(item => item.ipfs_pin_hash)
       })
-      .then(data => {
-        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
-        pinCidsBefore = data.map(item => item.pin.cid)
-      })
-      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
+      .catch(err => console.log('Failed request: GET https://api.pinata.cloud/data/pinList'))
 
     const tulipIndex = await contractWithSigner.getNextTokenImageId()
 
@@ -113,34 +112,34 @@ export default function PageWithJSbasedForm() {
     console.log(data)
     const formData  = new FormData();
     formData.append("data", data);
-    console.log('POST https://shuttle-4.estuary.tech/content/add')
-    fetch('https://shuttle-4.estuary.tech/content/add', {
+    console.log('POST https://api.pinata.cloud/pinning/pinFileToIPFS')
+    fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
       method: "POST",
       headers: {
-        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
+        pinata_api_key: process.env.NEXT_APP_PINATA_API_KEY,
+        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
       },
       body: formData
     })
     .catch(err => {
       console.log(err)
-      console.log('Failed request: POST https://shuttle-4.estuary.tech/content/add')
+      console.log('Failed request: POST https://api.pinata.cloud/pinning/pinFileToIPFS')
     })
 
     let pinCidsAfter;
-    fetch('https://api.estuary.tech/pinning/pins', {
+    fetch('https://api.pinata.cloud/data/pinList', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
+        pinata_api_key: process.env.NEXT_APP_PINATA_API_KEY,
+        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
       },
     })
-      .then(data => {
-        return data.json();
+      .then(data => data.json())
+      .then(pinList => {
+        console.log('Successful request: GET https://api.pinata.cloud/data/pinList')
+        pinCidsAfter = pinList['rows'].map(item => item.ipfs_pin_hash)
       })
-      .then(data => {
-        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
-        pinCidsAfter = data.map(item => item.pin.cid)
-      })
-      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
+      .catch(err => console.log('Failed request: GET https://api.pinata.cloud/data/pinList'))
     let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
     const tx = await contractWithSigner.mintTo(address, metadataURI)
