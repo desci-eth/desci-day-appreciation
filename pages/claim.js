@@ -54,7 +54,12 @@ const getSigner = async () => {
 
 export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
+  const [address, setAddress] = useState()
   const [userInput, setUserInput] = useState("")
+
+  useEffect(() => {
+    signer.getAddress().then(_address => setAddress(_address))
+  }, [signer])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -185,7 +190,7 @@ export default function PageWithJSbasedForm() {
         <p>1. connect wallet, set network to xDAI</p>
         <p>2. retrieve xDAI from faucet</p>
         <p>3. enter your info and message</p>
-        <p>4. view your <a href="https://epor.io/{await signer.getAddress()}?network=xDai"> tulip</a></p>
+        <p>4. view your <a href={`https://epor.io/${address}?network=xDai`}> tulip</a></p>
         </div>        
         <Link href="/messages" passHref>
           <a target="_blank">
