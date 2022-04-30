@@ -77,7 +77,7 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
     })
       .then(data => {
@@ -87,6 +87,7 @@ export default function PageWithJSbasedForm() {
         console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsBefore = data.map(item => item.pin.cid)
       })
+      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
 
     const tulipIndex = await contractWithSigner.getNextTokenImageId()
 
@@ -107,25 +108,27 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.estuary.tech/content/add', {
       method: "POST",
       headers: {
-        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
       body: formData
     })
+    .catch(err => console.log('Failed request: POST https://api.estuary.tech/content/add'))
 
     let pinCidsAfter;
     fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
     })
       .then(data => {
         return data.json();
       })
       .then(data => {
-        console.log('Successful request: POST https://api.estuary.tech/content/add')
+        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsAfter = data.map(item => item.pin.cid)
       })
+      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
     let metadataURI = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
     const tx = await contractWithSigner.mintTo(address, metadataURI)
