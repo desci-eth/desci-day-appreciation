@@ -73,16 +73,18 @@ export default function PageWithJSbasedForm() {
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
     
     let pinCidsBefore;
+    console.log('GET https://api.estuary.tech/pinning/pins')
     fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
       },
     })
       .then(data => {
         return data.json();
       })
       .then(data => {
+        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsBefore = data.map(item => item.pin.cid)
       })
 
@@ -101,6 +103,7 @@ export default function PageWithJSbasedForm() {
     }
     const formData  = new FormData();
     formData.append("data", data);
+    console.log('POST https://api.estuary.tech/content/add')
     fetch('https://api.estuary.tech/content/add', {
       method: "POST",
       headers: {
@@ -120,6 +123,7 @@ export default function PageWithJSbasedForm() {
         return data.json();
       })
       .then(data => {
+        console.log('Successful request: POST https://api.estuary.tech/content/add')
         pinCidsAfter = data.map(item => item.pin.cid)
       })
     let metadataURI = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
