@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import ConnectButton from './components/connect'
+import ConnectTopBar from './components/connect'
 import styles from '../styles/Home.module.css'
 // import styles from '../styles/tailwind.css'
 
@@ -65,7 +65,7 @@ export default function PageWithJSbasedForm() {
     const message = event.target.message.value
 
     if (!signer) {
-      setSigner(await getSigner())
+      getSigner().then(_signer => setSigner(_signer));
     }
     const contractAddr = '0xD73b048697Cd68cb9c5b534f890F915452191D1A'
     // const contractABI = require('../../data/abi/AppreciationToken.json')
@@ -130,9 +130,12 @@ export default function PageWithJSbasedForm() {
 
   return (
     <div>
-    <ConnectButton 
-      onClick={() => {
+    <ConnectTopBar
+      onClickConnect={() => {
         getSigner().then(_signer => setSigner(_signer));
+      }}
+      onClickFaucet={() => {
+        window.open('https://www.gimlu.com/faucet')
       }}
     />
     <Container>
