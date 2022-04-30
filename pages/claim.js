@@ -11,6 +11,10 @@ import Container from './components/Container'
 import Header from './components/Header'
 
 
+const nftDescription = "ETHAmsterdam 2022 DeSci Day NFT"
+const nftName = "ETHAmsterdam 2022 DeSci Day NFT"
+const nftExternalUrl = "https://gratitude.desci.community"
+
 const switchNetwork = async () => {
   try {
     await window.ethereum.request({
@@ -52,6 +56,13 @@ export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
   const [userInput, setUserInput] = useState("")
 
+  const sampleJson = {
+    "description": "ETHAmsterdam 2022 DeSci Day NFT", 
+    "external_url": "https://gratitude.desci.community", 
+    "image": "https://ipfs.io/ipfs/bafkreidgkieqasevl7ngtluqqys5tczd2dqfjga5q54uqgppjidhg64wje", 
+    "name": "ETHAmsterdam 2022 DeSci Day NFT"
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -67,7 +78,60 @@ export default function PageWithJSbasedForm() {
     // const contractABI = require('../../data/abi/AppreciationToken.json')
     const contractABI = require('./AppreciationToken.json')
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
-    const tx = await contractWithSigner.mintTo(address, name, location, message)
+    
+    let pinCidsBefore;
+    fetch('https://api.estuary.tech/pinning/pins', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + NEXT_APP_ESTUARY_KEY,
+      },
+    })
+      .then(data => {
+        return data.json();
+      })
+      .then(data => {
+        pinCidsBefore = data.map(item => item.pin.cid)
+      })
+
+    const tulipIndex = await contractWithSigner.getNextTokenImageId()
+
+    const data = {
+      description: "ETHAmsterdam 2022 DeSci Day NFT",
+      name: "ETHAmsterdam 2022 DeSci Day NFT",
+      external_url: "https://gratitude.desci.community",
+      image: `ipfs://${require('./TulipCids.json')[tulipIndex]}`,
+      attributes: [
+        { "trait_type": "name",  "value": name }, 
+        { "trait_type": "location", "value": location }, 
+        { "trait_type": "message", "value": message }
+      ]
+    }
+    const formData  = new FormData();
+    formData.append("data", data);
+    fetch('https://api.estuary.tech/content/add', {
+      method: "POST",
+      headers: {
+        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+      },
+      body: formData
+    })
+
+    let pinCidsAfter;
+    fetch('https://api.estuary.tech/pinning/pins', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + NEXT_APP_ESTUARY_KEY,
+      },
+    })
+      .then(data => {
+        return data.json();
+      })
+      .then(data => {
+        pinCidsAfter = data.map(item => item.pin.cid)
+      })
+    let metadataCid = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
+
+    const tx = await contractWithSigner.mintTo(address, metadataCid)
     alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
   }
 

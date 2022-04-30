@@ -13,15 +13,27 @@ export default function ViewMessages(props) {
       const contractABI = require('./AppreciationToken.json')
       const contractWithProvider = new ethers.Contract(contractAddr, contractABI, provider)
       const allAddrs = await contractWithProvider.getAllMinters()
+      const currentTokenId = await contractWithProvider._currentTokenId()
     
       let messageItemsTemp = messageItems.slice()
-      for (const address of allAddrs) {
-        const name = await contractWithProvider.getNameFromAddress(address)
-        const location = await contractWithProvider.getLocationFromAddress(address)
-        const message = await contractWithProvider.getMessageFromAddress(address)
+      for (let i = 0; i < currentTokenId; i++) {
+        const metadataURI = 'https://ipfs.io/ipfs/' + (await contractWithProvider.tokenURI(i)).replace('ipfs://', '')
+        const resp = await fetch(metadataURI)
+        const metadata = await resp.json()
+        const name = metadata['attributes'][0]['value']
+        const location = metadata['attributes'][1]['value']
+        const message = metadata['attributes'][2]['value']
         messageItemsTemp.push({name: name, location: location, message: message})
         setMessageItems(messageItemsTemp)
       }
+      // let messageItemsTemp = messageItems.slice()
+      // for (const address of allAddrs) {
+      //   const name = await contractWithProvider.getNameFromAddress(address)
+      //   const location = await contractWithProvider.getLocationFromAddress(address)
+      //   const message = await contractWithProvider.getMessageFromAddress(address)
+      //   messageItemsTemp.push({name: name, location: location, message: message})
+      //   setMessageItems(messageItemsTemp)
+      // }
       console.log(messageItems)
     }
     getMessages().then(() => console.log('got messages'))
