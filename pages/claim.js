@@ -187,13 +187,7 @@ export default function PageWithJSbasedForm() {
               </form>
             </div>
           </main>
-        </div>
-        <div className="font-sans text-sm">
-        <p>1. connect wallet, set network to xDAI</p>
-        <p>2. retrieve xDAI from faucet</p>
-        <p>3. enter your info and message</p>
-        <p>4. view your <a href={`https://epor.io/${address}?network=xDai`}> tulip</a></p>
-        </div>        
+        </div>    
         <Link href="/messages" passHref>
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
