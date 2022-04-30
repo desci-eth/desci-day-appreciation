@@ -111,8 +111,8 @@ export default function PageWithJSbasedForm() {
     }
     const formData  = new FormData();
     formData.append("data", data);
-    console.log('POST https://api.estuary.tech/content/add')
-    fetch('https://api.estuary.tech/content/add', {
+    console.log('POST https://shuttle-4.estuary.tech/content/add')
+    fetch('https://shuttle-4.estuary.tech/content/add', {
       method: "POST",
       headers: {
         Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
@@ -121,7 +121,7 @@ export default function PageWithJSbasedForm() {
     })
     .catch(err => {
       console.log(err)
-      console.log('Failed request: POST https://api.estuary.tech/content/add')
+      console.log('Failed request: POST https://shuttle-4.estuary.tech/content/add')
     })
 
     let pinCidsAfter;
