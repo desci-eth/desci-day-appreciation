@@ -10,7 +10,7 @@ const InstructionModal = ({ show }) => {
 			})}
 		>
 			<div
-				className="z-10 relative transition-all ease-in-out delay-150 duration-200 bg-white m-auto content-center max-w-lg p-10 border-solid border-2 border-gray-300 rounded-3xl"
+				className="z-10 relative bg-white m-auto content-center w-6/12 p-10 px-28 border-solid border-2 border-gray-300 rounded-3xl"
 			>
 				<button
 					className="absolute right-4 top-4 text-sm text-blue-500"
