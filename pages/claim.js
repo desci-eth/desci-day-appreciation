@@ -80,8 +80,8 @@ export default function PageWithJSbasedForm() {
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
     
     let pinCidsBefore;
-    console.log('GET https://shuttle-4.estuary.tech/pinning/pins')
-    fetch('https://shuttle-4.estuary.tech/pinning/pins', {
+    console.log('GET https://api.estuary.tech/pinning/pins')
+    fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
@@ -91,10 +91,10 @@ export default function PageWithJSbasedForm() {
         return data.json();
       })
       .then(data => {
-        console.log('Successful request: GET https://shuttle-4.estuary.tech/pinning/pins')
+        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsBefore = data.map(item => item.pin.cid)
       })
-      .catch(err => console.log('Failed request: GET https://shuttle-4.estuary.tech/pinning/pins'))
+      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
 
     const tulipIndex = await contractWithSigner.getNextTokenImageId()
 
@@ -127,7 +127,7 @@ export default function PageWithJSbasedForm() {
     })
 
     let pinCidsAfter;
-    fetch('https://shuttle-4.estuary.tech/pinning/pins', {
+    fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
@@ -137,10 +137,10 @@ export default function PageWithJSbasedForm() {
         return data.json();
       })
       .then(data => {
-        console.log('Successful request: GET https://shuttle-4.estuary.tech/pinning/pins')
+        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsAfter = data.map(item => item.pin.cid)
       })
-      .catch(err => console.log('Failed request: GET https://shuttle-4.estuary.tech/pinning/pins'))
+      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
     let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
     const tx = await contractWithSigner.mintTo(address, metadataURI)
