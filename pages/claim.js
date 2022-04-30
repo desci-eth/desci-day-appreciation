@@ -111,15 +111,18 @@ export default function PageWithJSbasedForm() {
     }
     const formData  = new FormData();
     formData.append("data", data);
-    console.log('POST https://api.estuary.tech/content/add')
-    fetch('https://api.estuary.tech/content/add', {
+    console.log('POST https://shuttle-4.estuary.tech/content/add')
+    fetch('https://shuttle-4.estuary.tech/content/add', {
       method: "POST",
       headers: {
         Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
       body: formData
     })
-    .catch(err => console.log('Failed request: POST https://api.estuary.tech/content/add'))
+    .catch(err => {
+      console.log(err)
+      console.log('Failed request: POST https://shuttle-4.estuary.tech/content/add')
+    })
 
     let pinCidsAfter;
     fetch('https://api.estuary.tech/pinning/pins', {
@@ -136,7 +139,7 @@ export default function PageWithJSbasedForm() {
         pinCidsAfter = data.map(item => item.pin.cid)
       })
       .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
-    let metadataURI = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
+    let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
     const tx = await contractWithSigner.mintTo(address, metadataURI)
     alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
