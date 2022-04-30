@@ -1,5 +1,5 @@
 import InstructionModal from './InstructionModal'
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const ViewInstructionButton = ({ onClick }) => {
   return (
@@ -35,12 +35,10 @@ const FaucetButton = ({ onClick }) => {
 }
 
 const ConnectTopBar = ({ onClickConnect, onClickFaucet }) => {
-  const [showInstruction, setShowInstruction] = useState(true);
   return (
     <div>
-    <InstructionModal show={showInstruction}/>
-    <div className="absolute flex flex-row justify-between m-4 w-11/12">
-      <ViewInstructionButton onClick={() => setShowInstruction(!showInstruction)}/>
+    <InstructionModal show={true}/>
+    <div className="absolute flex flex-row justify-end m-4 w-11/12">
       <div className="flex"
       >
         <ConnectButton onClick={onClickConnect}/>

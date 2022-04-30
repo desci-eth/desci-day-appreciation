@@ -169,11 +169,11 @@ export default function PageWithJSbasedForm() {
               className="sm:m-5 mx-5 grid justify-items-center"
             >
               <form onSubmit={handleSubmit}>
-                <p>Your name (or pseudonym)</p>
+                <p> 👤 Name</p>
                 <input className="border-2" type="text" name="name" required />
-                <p>Your location</p>
+                <p> 🚩 Location</p>
                 <input className="border-2" type="text" name="location" required />
-                <p>Message</p>
+                <p> 💝 Message</p>
                 <div>
                   <textarea
                     className="border-2"
@@ -187,12 +187,13 @@ export default function PageWithJSbasedForm() {
                 <div
                   className="animate-pulse text-sm bg-gradient-to-r from-blue-50 via-blue-100 to-blue-50 py-5 px-5 shadow-md rounded-xl m-5 ring-4 ring-blue-100 font-lato font-light"
                 >
-                  <button  type="submit">Send message and receive NFT</button>
+                  <button  className="font-sans text-lg" type="submit"><font size="4.5">Record Your Message</font></button>
                 </div>
               </form>
             </div>
           </main>
-        </div>    
+        </div>
+                <p>🌷 Minted? <a href={`https://epor.io/${address}?network=xDai`}>View your tulip</a></p>
         <Link href="/messages" passHref>
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
