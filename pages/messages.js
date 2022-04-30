@@ -7,17 +7,17 @@ export default function ViewMessages(props) {
 
   useEffect(() => {
     const getMessages = async () => {
-      const provider = new ethers.providers.JsonRpcProvider("https://xdai-rpc.gateway.pokt.network")
-      const contractAddr = '0x901280B591cAEe7DB1c923E5Ae6f4021805fC53e'
+      const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+      const contractAddr = '0xD73b048697Cd68cb9c5b534f890F915452191D1A'
       // const contractABI = require('../../data/abi/AppreciationToken.json')
       const contractABI = require('./AppreciationToken.json')
       const contractWithProvider = new ethers.Contract(contractAddr, contractABI, provider)
-      const allAddrs = await contractWithProvider.getAllMinters()
+      // const allAddrs = await contractWithProvider.getAllMinters()
       const currentTokenId = await contractWithProvider._currentTokenId()
     
       let messageItemsTemp = messageItems.slice()
-      for (let i = 0; i < currentTokenId; i++) {
-        const metadataURI = 'https://ipfs.io/ipfs/' + (await contractWithProvider.tokenURI(i)).replace('ipfs://', '')
+      for (let tokenId = 0; tokenId < currentTokenId; tokenId++) {
+        const metadataURI = 'https://ipfs.io/ipfs/' + (await contractWithProvider.tokenURI(tokenId)).replace('ipfs://', '')
         const resp = await fetch(metadataURI)
         const metadata = await resp.json()
         const name = metadata['attributes'][0]['value']

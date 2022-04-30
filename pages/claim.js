@@ -56,13 +56,6 @@ export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
   const [userInput, setUserInput] = useState("")
 
-  const sampleJson = {
-    "description": "ETHAmsterdam 2022 DeSci Day NFT", 
-    "external_url": "https://gratitude.desci.community", 
-    "image": "https://ipfs.io/ipfs/bafkreidgkieqasevl7ngtluqqys5tczd2dqfjga5q54uqgppjidhg64wje", 
-    "name": "ETHAmsterdam 2022 DeSci Day NFT"
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -74,7 +67,7 @@ export default function PageWithJSbasedForm() {
     if (!signer) {
       setSigner(await getSigner())
     }
-    const contractAddr = '0x901280B591cAEe7DB1c923E5Ae6f4021805fC53e'
+    const contractAddr = '0xD73b048697Cd68cb9c5b534f890F915452191D1A'
     // const contractABI = require('../../data/abi/AppreciationToken.json')
     const contractABI = require('./AppreciationToken.json')
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
@@ -96,9 +89,9 @@ export default function PageWithJSbasedForm() {
     const tulipIndex = await contractWithSigner.getNextTokenImageId()
 
     const data = {
-      description: "ETHAmsterdam 2022 DeSci Day NFT",
-      name: "ETHAmsterdam 2022 DeSci Day NFT",
-      external_url: "https://gratitude.desci.community",
+      description: nftDescription,
+      name: nftName,
+      external_url: nftExternalUrl,
       image: `ipfs://${require('./TulipCids.json')[tulipIndex]}`,
       attributes: [
         { "trait_type": "name",  "value": name }, 
@@ -129,9 +122,9 @@ export default function PageWithJSbasedForm() {
       .then(data => {
         pinCidsAfter = data.map(item => item.pin.cid)
       })
-    let metadataCid = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
+    let metadataURI = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
-    const tx = await contractWithSigner.mintTo(address, metadataCid)
+    const tx = await contractWithSigner.mintTo(address, metadataURI)
     alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
   }
 
