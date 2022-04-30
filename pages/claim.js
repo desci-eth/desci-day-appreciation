@@ -58,7 +58,9 @@ export default function PageWithJSbasedForm() {
   const [userInput, setUserInput] = useState("")
 
   useEffect(() => {
-    signer.getAddress().then(_address => setAddress(_address))
+    if (signer) {
+      signer.getAddress().then(_address => setAddress(_address))
+    }
   }, [signer])
 
   const handleSubmit = async (event) => {
