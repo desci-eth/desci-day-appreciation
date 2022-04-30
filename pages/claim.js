@@ -54,7 +54,14 @@ const getSigner = async () => {
 
 export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
+  const [address, setAddress] = useState()
   const [userInput, setUserInput] = useState("")
+
+  useEffect(() => {
+    if (signer) {
+      signer.getAddress().then(_address => setAddress(_address))
+    }
+  }, [signer])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -77,7 +84,7 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
     })
       .then(data => {
@@ -87,6 +94,7 @@ export default function PageWithJSbasedForm() {
         console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsBefore = data.map(item => item.pin.cid)
       })
+      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
 
     const tulipIndex = await contractWithSigner.getNextTokenImageId()
 
@@ -107,25 +115,27 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.estuary.tech/content/add', {
       method: "POST",
       headers: {
-        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
       body: formData
     })
+    .catch(err => console.log('Failed request: POST https://api.estuary.tech/content/add'))
 
     let pinCidsAfter;
     fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ESTcf6d84dc-87c4-4260-ba24-567bc4f7126eARY',
       },
     })
       .then(data => {
         return data.json();
       })
       .then(data => {
-        console.log('Successful request: POST https://api.estuary.tech/content/add')
+        console.log('Successful request: GET https://api.estuary.tech/pinning/pins')
         pinCidsAfter = data.map(item => item.pin.cid)
       })
+      .catch(err => console.log('Failed request: GET https://api.estuary.tech/pinning/pins'))
     let metadataURI = `ipfs://${pinsCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
     const tx = await contractWithSigner.mintTo(address, metadataURI)
@@ -178,6 +188,12 @@ export default function PageWithJSbasedForm() {
             </div>
           </main>
         </div>
+        <div className="font-sans text-sm">
+        <p>1. connect wallet, set network to xDAI</p>
+        <p>2. retrieve xDAI from faucet</p>
+        <p>3. enter your info and message</p>
+        <p>4. view your <a href={`https://epor.io/${address}?network=xDai`}> tulip</a></p>
+        </div>        
         <Link href="/messages" passHref>
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
@@ -196,7 +212,7 @@ export default function PageWithJSbasedForm() {
             </span>
             <a href="https://twitter.com/anggxyz/" target="_new">
               @anggxyz
-            </a>
+            </a>, adapted by the DeSci Community
           </div>
         </div>
       </div>
