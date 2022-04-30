@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import ConnectTopBar from './components/connect'
+import ConnectTopBar from './components/ConnectTopBar'
 import styles from '../styles/Home.module.css'
 // import styles from '../styles/tailwind.css'
 

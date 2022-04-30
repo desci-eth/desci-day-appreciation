@@ -7,7 +7,7 @@ export default function Header(props) {
       <div className="max-w-md mx-auto"></div>
         <section>
           <p className="pl-5 sm:pl-0 font-heading font-bold text-2xl sm:text-2xl">
-            Claim Your Appreciation Token by Sending a Message to the DeSci Day Organizers
+            Send an appreciation message to Eugene and Erik, get an appreciation token!
           </p>
         </section>
         <div>
