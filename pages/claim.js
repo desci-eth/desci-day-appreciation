@@ -181,6 +181,12 @@ export default function PageWithJSbasedForm() {
             </div>
           </main>
         </div>
+        <div className="font-sans text-sm">
+        <p>1. connect wallet, set network to xDAI</p>
+        <p>2. retrieve xDAI from faucet</p>
+        <p>3. enter your info and message</p>
+        <p>4. view your <a href="https://epor.io/{await signer.getAddress()}?network=xDai"> tulip</a></p>
+        </div>        
         <Link href="/messages" passHref>
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
@@ -199,7 +205,7 @@ export default function PageWithJSbasedForm() {
             </span>
             <a href="https://twitter.com/anggxyz/" target="_new">
               @anggxyz
-            </a>
+            </a>, adapted by the DeSci Community
           </div>
         </div>
       </div>
