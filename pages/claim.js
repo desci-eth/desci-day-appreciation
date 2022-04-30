@@ -76,7 +76,7 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.estuary.tech/pinning/pins', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + NEXT_APP_ESTUARY_KEY,
+        Authorization: 'Bearer ' + process.env.NEXT_APP_ESTUARY_KEY,
       },
     })
       .then(data => {
