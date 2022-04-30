@@ -17,11 +17,13 @@ const InstructionModal = ({ show }) => {
 					onClick={() => setShowInstruction(false)}
 				>Close
 				</button>
-				<p className="my-4 text-lg">1. Connect your wallet + confirm that yourm network is xDAI</p>
-				<p className="my-4 text-lg">2. If you need xDAI, click on "Get xDAI" and get some from a faucet (choose GNOSIS chain)</p>
+				<p> <font size="6.25"> ✨ Instructions </font></p>
+				<p className="my-4 text-lg">1. Connect Wallet + Set Network to Gnosis (xDAI)</p>
+				<p className="my-4 text-lg">2. If you need xDAI, click on "Get xDAI" and get some from a faucet (Gnosis chain)</p>
 				<p className="my-4 text-lg">3. Fill out the form with your name, location and message</p>
 				<p className="my-4 text-lg">4. Click "Send message and receive NFT" to mint your appreciation NFT!</p>
-				<p className="my-4 text-lg">5. We will later assemble the messages into a bouquet NFT for Eugene and Erik</p>
+				<p className="my-4 text-lg">5. We will later assemble the messages into a non-fungible bouquet for Eugene and Erik </p>
+				<font size="30">💐</font> Thanks, DeSci Stewards
 			</div>
 		</div>
 	)
