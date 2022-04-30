@@ -109,6 +109,8 @@ export default function PageWithJSbasedForm() {
         { "trait_type": "message", "value": message }
       ]
     }
+    console.log('metadata as object...')
+    console.log(data)
     const formData  = new FormData();
     formData.append("data", data);
     console.log('POST https://shuttle-4.estuary.tech/content/add')
