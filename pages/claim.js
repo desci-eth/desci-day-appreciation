@@ -15,6 +15,9 @@ const nftDescription = "ETHAmsterdam 2022 DeSci Day NFT"
 const nftName = "ETHAmsterdam 2022 DeSci Day NFT"
 const nftExternalUrl = "https://gratitude.desci.community"
 
+const PINATA_SECRET_API_KEY = "bd8d80dfbb732b3d4c5a3a59943184a01496c2dfd97042305fa1ab3f9a335fb3";
+const NEXT_APP_PINATA_API_KEY = "7e33b2215414060f54f1";
+
 const switchNetwork = async () => {
   try {
     await window.ethereum.request({
@@ -60,6 +63,8 @@ export default function PageWithJSbasedForm() {
   useEffect(() => {
     if (signer) {
       signer.getAddress().then(_address => setAddress(_address))
+    } else {
+      getSigner().then(_signer => setSigner(_signer));
     }
   }, [signer])
 
@@ -67,14 +72,19 @@ export default function PageWithJSbasedForm() {
     event.preventDefault()
 
     const name = event.target.name.value
-    const address = await signer.getAddress()
-    const location = event.target.location.value
-    const message = event.target.message.value
 
     if (!signer) {
       getSigner().then(_signer => setSigner(_signer));
     }
-    const contractAddr = '0xD73b048697Cd68cb9c5b534f890F915452191D1A'
+
+    console.log('after signer', signer);
+
+    const address = await signer?.getAddress()
+    const location = event.target.location.value
+    const message = event.target.message.value
+
+    
+    const contractAddr = '0xe2Fc2eB6c8820cbe488d682ce5a2E2Dc392B55c7'
     // const contractABI = require('../../data/abi/AppreciationToken.json')
     const contractABI = require('./AppreciationToken.json')
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
@@ -84,8 +94,8 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.pinata.cloud/data/pinList', {
       method: 'GET',
       headers: {
-        pinata_api_key: process.env.NEXT_APP_PINATA_API_KEY,
-        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
+        pinata_api_key: NEXT_APP_PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_SECRET_API_KEY,
       },
     })
       .then(resp => resp.json())
@@ -95,6 +105,7 @@ export default function PageWithJSbasedForm() {
       })
       .catch(err => console.log('Failed request: GET https://api.pinata.cloud/data/pinList'))
 
+    console.log('contract', contractWithSigner);
     const tulipIndex = await contractWithSigner.getNextTokenImageId()
 
     const data = {
@@ -113,11 +124,12 @@ export default function PageWithJSbasedForm() {
     const formData  = new FormData();
     formData.append("data", data);
     console.log('POST https://api.pinata.cloud/pinning/pinFileToIPFS')
+    console.log('key', PINATA_SECRET_API_KEY)
     fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
       method: "POST",
       headers: {
-        pinata_api_key: process.env.NEXT_APP_PINATA_API_KEY,
-        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
+        pinata_api_key: NEXT_APP_PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_SECRET_API_KEY,
       },
       body: formData
     })
@@ -130,20 +142,23 @@ export default function PageWithJSbasedForm() {
     fetch('https://api.pinata.cloud/data/pinList', {
       method: 'GET',
       headers: {
-        pinata_api_key: process.env.NEXT_APP_PINATA_API_KEY,
-        pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY,
+        pinata_api_key: NEXT_APP_PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_SECRET_API_KEY,
       },
     })
       .then(data => data.json())
-      .then(pinList => {
+      .then(async(pinList) => {
         console.log('Successful request: GET https://api.pinata.cloud/data/pinList')
-        pinCidsAfter = pinList['rows'].map(item => item.ipfs_pin_hash)
+        pinCidsAfter = pinList['rows'].map(item => item.ipfs_pin_hash);
+        let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
+        const tx = await contractWithSigner.mintTo(address, metadataURI);
+        alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
+
+
       })
       .catch(err => console.log('Failed request: GET https://api.pinata.cloud/data/pinList'))
-    let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
 
-    const tx = await contractWithSigner.mintTo(address, metadataURI)
-    alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
+    
   }
 
   return (
