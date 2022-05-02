@@ -119,10 +119,14 @@ export default function PageWithJSbasedForm() {
         { "trait_type": "message", "value": message }
       ]
     }
+    const jsondata = JSON.stringify(data);
+    const blob = new Blob([jsondata], { type: 'application/json' });
+    const file = new File([ blob ], 'file.json');
+
     console.log('metadata as object...')
     console.log(data)
     const formData  = new FormData();
-    formData.append("data", data);
+    formData.append("file", file);
     console.log('POST https://api.pinata.cloud/pinning/pinFileToIPFS')
     console.log('key', PINATA_SECRET_API_KEY)
     fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
@@ -151,6 +155,7 @@ export default function PageWithJSbasedForm() {
         console.log('Successful request: GET https://api.pinata.cloud/data/pinList')
         pinCidsAfter = pinList['rows'].map(item => item.ipfs_pin_hash);
         let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
+        console.log('metadataURI', metadataURI);
         const tx = await contractWithSigner.mintTo(address, metadataURI);
         alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
 
