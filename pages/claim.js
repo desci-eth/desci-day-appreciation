@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import ConnectTopBar from './components/ConnectTopBar'
+import MintingModal from './components/MintingModal'
 import styles from '../styles/Home.module.css'
 // import styles from '../styles/tailwind.css'
 
@@ -42,12 +43,12 @@ const getSigner = async () => {
     await provider.send("eth_requestAccounts", []);
   } catch(e) {
       if (e.code === -32002) {
-        window.alert('You already initiated a connection. Please open your metamask and approve any pending transactions from us.')
+        window.alert('Please open your metamask and approve any pending transactions from us.')
       }
   }
   const signer = provider.getSigner();
   try {
-    const address = await signer.getAddress();
+    const address = signer ? await signer.getAddress() : null;
     console.log("Account:", address);
   } catch(e) {
     //TODO
@@ -59,6 +60,7 @@ export default function PageWithJSbasedForm() {
   const [signer, setSigner] = useState()
   const [address, setAddress] = useState()
   const [userInput, setUserInput] = useState("")
+  const [showMintingModal, setShowMintingModal] = useState(false)
 
   useEffect(() => {
     if (signer) {
@@ -79,7 +81,7 @@ export default function PageWithJSbasedForm() {
 
     console.log('after signer', signer);
 
-    const address = await signer?.getAddress()
+    const address = signer ? await signer.getAddress() : null;
     const location = event.target.location.value
     const message = event.target.message.value
 
@@ -128,7 +130,7 @@ export default function PageWithJSbasedForm() {
     const formData  = new FormData();
     formData.append("file", file);
     console.log('POST https://api.pinata.cloud/pinning/pinFileToIPFS')
-    console.log('key', PINATA_SECRET_API_KEY)
+    setShowMintingModal(true);
     fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
       method: "POST",
       headers: {
@@ -137,31 +139,33 @@ export default function PageWithJSbasedForm() {
       },
       body: formData
     })
+    .then(() => {
+      let pinCidsAfter;
+      fetch('https://api.pinata.cloud/data/pinList', {
+        method: 'GET',
+        headers: {
+          pinata_api_key: NEXT_APP_PINATA_API_KEY,
+          pinata_secret_api_key: PINATA_SECRET_API_KEY,
+        },
+      })
+        .then(data => data.json())
+        .then(async(pinList) => {
+          console.log('Successful request: GET https://api.pinata.cloud/data/pinList')
+          pinCidsAfter = pinList['rows'].map(item => item.ipfs_pin_hash);
+          let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
+          console.log('metadataURI', metadataURI);
+          const tx = await contractWithSigner.mintTo(address, metadataURI);
+          setShowMintingModal(false);
+          alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
+
+
+        })
+        .catch(err => console.log('Failed request: GET https://api.pinata.cloud/data/pinList'))
+    })
     .catch(err => {
       console.log(err)
       console.log('Failed request: POST https://api.pinata.cloud/pinning/pinFileToIPFS')
     })
-
-    let pinCidsAfter;
-    fetch('https://api.pinata.cloud/data/pinList', {
-      method: 'GET',
-      headers: {
-        pinata_api_key: NEXT_APP_PINATA_API_KEY,
-        pinata_secret_api_key: PINATA_SECRET_API_KEY,
-      },
-    })
-      .then(data => data.json())
-      .then(async(pinList) => {
-        console.log('Successful request: GET https://api.pinata.cloud/data/pinList')
-        pinCidsAfter = pinList['rows'].map(item => item.ipfs_pin_hash);
-        let metadataURI = `ipfs://${pinCidsAfter.filter(x => !pinCidsBefore.includes(x))[0]}`;
-        console.log('metadataURI', metadataURI);
-        const tx = await contractWithSigner.mintTo(address, metadataURI);
-        alert(`You successfully claimed your NFT! Transaction hash: ${tx.hash}`)
-
-
-      })
-      .catch(err => console.log('Failed request: GET https://api.pinata.cloud/data/pinList'))
 
     
   }
@@ -169,6 +173,7 @@ export default function PageWithJSbasedForm() {
   return (
     <div>
     <ConnectTopBar
+      address={address || null}
       onClickConnect={() => {
         getSigner().then(_signer => setSigner(_signer));
       }}
@@ -236,6 +241,7 @@ export default function PageWithJSbasedForm() {
         </div>
       </div>
     </Container>
+    <MintingModal show={showMintingModal}/>
     </div>
   )
 }

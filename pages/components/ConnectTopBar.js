@@ -12,13 +12,20 @@ const ViewInstructionButton = ({ onClick }) => {
    )
 }
 
-const ConnectButton = ({ onClick }) => {
+const ConnectButton = ({ address, onClick }) => {
   return (
     <div className="relative flex justify-end mx-2">
-      <button
+    {!address
+      ? (<button
         className="p-3 bg-purple-900 text-white hover:bg-pink-800 border-gray-700 rounded-lg"
         onClick={onClick}
-      >Connect Wallet</button>
+      >Connect Wallet</button>)
+      : (<button
+        className="p-3 bg-gray-500 text-white border-gray-700 rounded-lg"
+        onClick={onClick}
+        disabled={true}
+      >{address.slice(0, 7)}...</button>)
+    }
     </div>
    )
 }
@@ -34,14 +41,14 @@ const FaucetButton = ({ onClick }) => {
    )
 }
 
-const ConnectTopBar = ({ onClickConnect, onClickFaucet }) => {
+const ConnectTopBar = ({ address, onClickConnect, onClickFaucet }) => {
   return (
     <div>
     <InstructionModal show={true}/>
     <div className="absolute flex flex-row justify-end m-4 w-11/12">
       <div className="flex"
       >
-        <ConnectButton onClick={onClickConnect}/>
+        <ConnectButton address={address} onClick={onClickConnect}/>
         <FaucetButton onClick={onClickFaucet}/>
       </div>
     </div>
