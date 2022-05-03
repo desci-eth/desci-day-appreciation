@@ -86,7 +86,7 @@ export default function PageWithJSbasedForm() {
     const message = event.target.message.value
 
     
-    const contractAddr = '0xe2Fc2eB6c8820cbe488d682ce5a2E2Dc392B55c7'
+    const contractAddr = '0xa9EEf580B80cBf610d7f693aaa510C1aCDB0bcd4'
     // const contractABI = require('../../data/abi/AppreciationToken.json')
     const contractABI = require('./AppreciationToken.json')
     const contractWithSigner = new ethers.Contract(contractAddr, contractABI, signer)
