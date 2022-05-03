@@ -238,7 +238,7 @@ export default function PageWithJSbasedForm() {
               @anggxyz
             </a>, adapted by the DeSci Community
 
-            <p classname="text-sm">🙏 big thanks to <a href="https://twitter.com/catthu" target="_new"> @catthu </a> & <a href="https://twitter.com/OneCalebTuttle" target="_new"> @calebtuttle</a></p> 
+            <p className="text-sm">🙏 big thanks to <a href="https://twitter.com/catthu" target="_new"> @catthu </a> & <a href="https://twitter.com/OneCalebTuttle" target="_new"> @calebtuttle</a></p> 
           </div>
         </div>
       </div>
