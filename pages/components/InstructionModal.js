@@ -19,9 +19,9 @@ const InstructionModal = ({ show }) => {
 				</button>
 				<p> <font size="6.25"> ✨ Instructions </font></p>
 				<p className="my-4 text-lg">1. Connect Wallet + Set Network to Gnosis (xDAI)</p>
-				<p className="my-4 text-lg">2. If you need xDAI, click on &ldquoGet xDAI&ldquo and get some from a faucet (Gnosis chain)</p>
+				<p className="my-4 text-lg">2. If you need xDAI, click on &ldquo;Get xDAI&ldquo; and get some from a faucet (Gnosis chain)</p>
 				<p className="my-4 text-lg">3. Fill out the form with your name, location and message</p>
-				<p className="my-4 text-lg">4. Click &ldquoSend message and receive NFT&ldquo to mint your appreciation NFT!</p>
+				<p className="my-4 text-lg">4. Click &ldquo;Send message and receive NFT&ldquo; to mint your appreciation NFT!</p>
 				<p className="my-4 text-lg">5. We will later assemble the messages into a non-fungible bouquet for Eugene and Erik </p>
 				<font size="30">💐</font> Thanks, DeSci Stewards
 			</div>
