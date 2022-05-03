@@ -228,7 +228,7 @@ export default function PageWithJSbasedForm() {
           </a>
         </Link>
         <div
-          className="pt-5 card-footer bottom-0 sm:absolute sm:bottom-4 sm:pt-10 sm:mt-3"
+          className="pt-5 card-footer bottom-0 sm:absolute sm:bottom-3 sm:pt-10 sm:mt-3"
         >
           <div className="font-sans text-gray-400 text-sm sm:text-center">
             <span>
@@ -238,7 +238,7 @@ export default function PageWithJSbasedForm() {
               @anggxyz
             </a>, adapted by the DeSci Community
 
-            <p className="text-sm">🙏 big thanks to <a href="https://twitter.com/catthu" target="_new"> @catthu </a> & <a href="https://twitter.com/OneCalebTuttle" target="_new"> @calebtuttle</a></p> 
+            <p className="text-sm">🙏 big thanks to <a href="https://twitter.com/catthu" target="_new"> @catthu </a> & <a href="https://twitter.com/OneCalebTuttle" target="_new"> @calebtuttle</a> <a href="https://twitter.com/lilyhg_3" target="_new"> @lilyhg </a></p> 
           </div>
         </div>
       </div>
