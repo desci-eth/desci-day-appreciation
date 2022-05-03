@@ -18,6 +18,7 @@ const InstructionModal = ({ show }) => {
 				>Close
 				</button>
 				<p> <font size="6.25"> ✨ Instructions </font></p>
+				<p> <em>browser only, mobile not supported</em> </p>
 				<p className="my-4 text-lg">1. Connect Wallet + Set Network to Gnosis (xDAI)</p>
 				<p className="my-4 text-lg">2. If you need xDAI, click on &ldquo;Get xDAI&ldquo; and get some from a faucet (Gnosis chain)</p>
 				<p className="my-4 text-lg">3. Fill out the form with your name, location and message</p>
