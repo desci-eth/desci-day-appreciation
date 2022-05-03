@@ -217,7 +217,7 @@ export default function PageWithJSbasedForm() {
             </div>
           </main>
         </div>
-                <p>🌷 Minted? <a href={`https://epor.io/${address}?network=xDai`}>View your tulip</a></p>
+                <p>🌷 Minted? <a href={`https://epor.io/${address}?network=xDai`} target="_new">View your tulip</a></p>
         <Link href="/messages" passHref>
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
@@ -237,6 +237,8 @@ export default function PageWithJSbasedForm() {
             <a href="https://twitter.com/anggxyz/" target="_new">
               @anggxyz
             </a>, adapted by the DeSci Community
+
+            <p className="text-sm">🙏 big thanks to <a href="https://twitter.com/catthu" target="_new"> @catthu </a> & <a href="https://twitter.com/OneCalebTuttle" target="_new"> @calebtuttle</a></p> 
           </div>
         </div>
       </div>
