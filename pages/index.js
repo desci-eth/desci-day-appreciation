@@ -103,5 +103,4 @@ const htmlPage =
           <p id="text31" class="style8">© Untitled. All rights reserved.</p>
         </div>
       </div>
-    </div>
-    <script src="/pages/assets/main.js"></script>`
+    </div>`

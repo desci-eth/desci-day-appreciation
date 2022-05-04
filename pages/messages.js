@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
+import ConnectTopBar from './components/ConnectTopBar'
+
 
 export default function ViewMessages(props) {
   const [messageItems, setMessageItems] = useState([])
@@ -42,10 +44,17 @@ export default function ViewMessages(props) {
   return (
     <div>
       <div className="absolute inset-6 px-4 sm:px-6">
+          <ConnectTopBar
+      address={null}
+      onClickConnect={() => {
+      }}
+      onClickFaucet={() => {
+      }}
+    />
         <div
           className="h-full border-2 border-dashed border-gray-200 overscroll-auto block overflow-x-scroll p-4"
           aria-hidden="true"
-        >
+        > Item list
           {messageItems && messageItems.map((message, index) => (
             <div key={index} className="grid grid-cols-1 gap-4 mt-4 font-sans">
               { message.message } <br />
