@@ -218,7 +218,7 @@ export default function PageWithJSbasedForm() {
           </main>
         </div>
                 <p>🌷 Minted? <a href={`https://epor.io/${address}?network=xDai`} target="_new">View your tulip</a></p>
-        <Link href="/messages" passHref>
+        <Link href="/messages" >
           <a target="_blank">
             <div className="font-sans cursor-pointer p-2" >
               <button className="sm:p-0 pt-2 float-right text-sm sm:text-base bg-gray-50 font-fancy border-opacity-50 border-dashed border-b-2 border-gray-900">

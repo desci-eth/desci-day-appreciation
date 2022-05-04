@@ -102,5 +102,4 @@ const htmlPage =
           </ul>
         </div>
       </div>
-    </div>
-    <script src="/pages/assets/main.js"></script>`
+    </div>`
