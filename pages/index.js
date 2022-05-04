@@ -100,7 +100,6 @@ const htmlPage =
               </a>
             </li>
           </ul>
-          <p id="text31" class="style8">© Untitled. All rights reserved.</p>
         </div>
       </div>
     </div>
