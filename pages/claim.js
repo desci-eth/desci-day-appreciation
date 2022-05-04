@@ -180,6 +180,7 @@ export default function PageWithJSbasedForm() {
       onClickFaucet={() => {
         window.open('https://www.gimlu.com/faucet')
       }}
+      showInstructions={true}
     />
     <Container>
       <div

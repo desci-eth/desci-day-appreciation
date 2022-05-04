@@ -41,10 +41,10 @@ const FaucetButton = ({ onClick }) => {
    )
 }
 
-const ConnectTopBar = ({ address, onClickConnect, onClickFaucet }) => {
+const ConnectTopBar = ({ address, onClickConnect, onClickFaucet, showInstructions }) => {
   return (
     <div>
-    <InstructionModal show={true}/>
+    <InstructionModal show={showInstructions}/>
     <div className="absolute flex flex-row justify-end m-4 w-11/12">
       <div className="flex"
       >
