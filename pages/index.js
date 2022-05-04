@@ -27,7 +27,7 @@ const htmlPage =
               <div class="inner" data-onvisible-trigger="1">
                 <h3 id="text27" class="style1">Desci community</h3>
                 <h1 id="text07" class="style3">Gratitude</h1>
-                <p id="text15" class="style4">The expression of thanks is an important cultural practice to recognize and celebrate community members that have stepped up for the benefit of all.</p>
+                <p id="text15" class="style4">Expressing thanks is an important cultural practice to recognize and celebrate community members that have stepped up for everyone's benefit.</p>
                 <ul id="buttons05" class="style3 buttons">
                   <li>
                     <a href="https://gratitude.desci.community/claim" class="button n01"><svg><use xlink:href="/pages/assets/icons.svg#arrow-right-light"></use></svg><span class="label">WAGMI</span></a>
@@ -41,7 +41,7 @@ const htmlPage =
               <div class="inner" data-onvisible-trigger="1">
                 <h3 id="text08" class="style1">Decentralized science</h3>
                 <h2 id="text28" class="style5">community first</h2>
-                <p id="text29" class="style4">DeSci is a public good and depends on selfless action and contribution to realize the benefits of shared knowledge</p>
+                <p id="text29" class="style4">DeSci is a public good and depends on selfless action and contribution to realize the benefits of shared knowledge.</p>
               </div>
             </div>
           </div>
