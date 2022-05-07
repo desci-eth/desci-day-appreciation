@@ -91,21 +91,9 @@ export default function ViewMessages(props) {
          console.log('promises', promises);
       }
 
-          //setMetadatas(metadataList);
 
       console.log(metadatas);
 
-      //const url = ['https://gateway.pinata.cloud/ipfs/', bouquetTokenURI.slice(7)].join('');
-
-      // const getMetadata = async() =>
-      //   fetch(url, {
-      //     method: 'GET',
-      //   })
-      // if (url) {
-      //   getMetadata()
-      //     .then(data => data.json())
-      //     .then(metadata => setMetadata(metadata));
-      // }
     }
     getMessages().then(() => console.log('got messages'))
     console.log('address at the end', address);
@@ -127,8 +115,8 @@ export default function ViewMessages(props) {
         <div
           className="h-4/5 p-4 my-24 mx-6 bg-white overflow-y-scroll"
           aria-hidden="true"
-        > {metadatas?.map((metadata) =>
-          <div className="flex flex-col w-full">
+        > {metadatas?.map((metadata, index) =>
+          <div className="flex flex-col w-full" key={index}>
             <div className="bg-yellow-200 w-full flex justify-center p-2">
             {metadata?.attributes[0].value} from {metadata?.attributes[1].value}
             </div>
