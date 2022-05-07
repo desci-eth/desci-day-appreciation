@@ -2,6 +2,7 @@
 const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
+
 module.exports = {
   content: [   
         "./pages/**/*.{js,ts,jsx,tsx}",   
@@ -25,8 +26,12 @@ module.exports = {
     },
     fontFamily: {
       sans: ["'Libre Franklin'", "sans-serif"],
-      serif: ["Merriweather", "serif"]
+      serif: ["Merriweather", "serif"],
+      cursive: ["Dancing Script", "cursive"]
     },
+    plugins: [
+      require("tailwindcss-animate"),
+    ],
     extend: {
       spacing: {
         "128": "32rem",
@@ -34,6 +39,9 @@ module.exports = {
       },
       borderRadius: {
         "4xl": "2rem"
+      },
+      animation: {
+        'bounce': 'bounce 4s linear infinite',
       },
       fontFamily: {
         mono: ['"B612 Mono"', ...defaultTheme.fontFamily.mono],
