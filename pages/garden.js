@@ -109,8 +109,8 @@ export default function ViewMessages(props) {
   console.log(messageModalStatus)
   return (
     <div>
-      <div className="absolute inset-0 sm:px-6">
-        <div className="absolute inset-0 sm:px-6 bg-[url('../public/message-background.jpg')] bg-fixed opacity-20 z-0 overflow-hidden">
+      <div className="absolute inset-0 px-6">
+        <div className="absolute inset-0 px-6 bg-[url('../public/message-background.jpg')] bg-cover opacity-20 z-0 overflow-x-hidden overflow-y-hidden">
         </div>
           <ConnectTopBar
             address={address}
@@ -121,6 +121,12 @@ export default function ViewMessages(props) {
             }}
             showInstructions={false}
           />
+
+          <div className="absolute w-full top-24 animate-pulse text-red-700">
+            <div className="relative flex flex-row justify-around text-6xl">
+            <div>⇦</div><div>⇨</div>
+            </div>
+          </div>
 
           <div 
             className="fixed h-4/5 w-11/12 p-4 my-24 mx-6 z-30 flex flex-row items-end overflow-x-auto overflow-y-hidden"
