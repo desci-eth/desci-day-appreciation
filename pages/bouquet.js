@@ -39,7 +39,7 @@ export default function ViewMessages(props) {
       const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
 
-      const bouquetContractAddr = '0x428c82c0D7fBC3D31dDe349D8f8F581D15f44ac5';
+      const bouquetContractAddr = '0xFfb6A7D94Dc1e2212475F04a9E0Ad2A2da40aA2D';
       const bouquetContractABI = require('./AppreciationBouquet.json')
       const bouquetContractWithProvider = new ethers.Contract(bouquetContractAddr, bouquetContractABI, provider)
 

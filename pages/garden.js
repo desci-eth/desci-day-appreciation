@@ -45,7 +45,7 @@ export default function ViewMessages(props) {
       const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
 
-      const bouquetContractAddr = '0x428c82c0D7fBC3D31dDe349D8f8F581D15f44ac5';
+      const bouquetContractAddr = '0xFfb6A7D94Dc1e2212475F04a9E0Ad2A2da40aA2D';
       const bouquetContractABI = require('./AppreciationBouquet.json')
       const bouquetContractWithProvider = new ethers.Contract(bouquetContractAddr, bouquetContractABI, provider)
 
@@ -125,6 +125,12 @@ export default function ViewMessages(props) {
           <div className="absolute w-full top-24 animate-pulse text-red-700">
             <div className="relative flex flex-row justify-around text-6xl">
             <div>⇦</div><div>⇨</div>
+            </div>
+          </div>
+
+          <div>
+            <div className="w-64 h-64 p-10 absolute top-0 left-0">
+              <img src="https://desci.mypinata.cloud/ipfs/QmYJUxY1sqrZgo1CNfxRFGc2CGiq3JApjthBGuDoQ9fWXQ" />
             </div>
           </div>
 
