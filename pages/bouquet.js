@@ -60,7 +60,7 @@ export default function ViewMessages(props) {
       const allBouquetMinters = await getAllBouquetMinters();
 
       const bouquetIndex = address ? allBouquetMinters.indexOf(address) : null;
-      const bouquetTokenId = bouquetIndex === 0 ? 0 : (bouquetIndex || null);
+      const bouquetTokenId = bouquetIndex === 0 ? 0 : (bouquetIndex || 2);
 
       const getTulipURIs = async (tokId) => bouquetContractWithProvider.tulipURIs(tokId);
       const tulipURIs = bouquetTokenId === null ? null : await getTulipURIs(bouquetTokenId + 1);
